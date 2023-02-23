@@ -34,3 +34,5 @@ foreach($articles as $index => $article){
 
 // var_dump($word_one . " " . $word_two);
 // var_dump($arr_assoc);
+
+?>
