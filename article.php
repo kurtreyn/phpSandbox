@@ -15,21 +15,23 @@ if (mysqli_connect_errno()) {
 
 // echo "Connected successfully <br>";
 
-
+if(isset($_GET['id']) && is_numeric($_GET['id'])){
 
 $sql = "SELECT * 
         FROM articles 
-        ORDER BY published_at;";
+        WHERE id = " . $_GET['id'];
 
 $results = mysqli_query($conn, $sql);
 
 if($results === false){
     echo mysqli_error($conn);
 } else {
-    $articles = mysqli_fetch_all($results, MYSQLI_ASSOC);
+    $article = mysqli_fetch_assoc($results);
 }
 
-
+} else {
+    $article = null;
+}
 
 
 ?>
@@ -46,20 +48,16 @@ if($results === false){
     </header>
 
     <main>
-        <?php if (empty($articles)): ?>
+        <?php if ($article === null): ?>
             <p>No articles found.</p>
         <?php else: ?>
 
-            <ul>
-                <?php foreach ($articles as $article): ?>
-                    <li>
+            
                         <article>
-                        <h2><a href="article.php?id=<?= $article['id']; ?>"><?= $article['title']; ?></a></h2>
+                            <h2><?= $article['title']; ?></h2>
                             <p><?= $article['content']; ?></p>
                         </article>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+              
 
         <?php endif; ?>
     </main>
